@@ -26,7 +26,6 @@ def generate_html():
 
     # Read the Excel file
     working_papers = pd.read_excel(excel_path, sheet_name="Working Papers", engine="openpyxl")
-    publications = pd.read_excel(excel_path, sheet_name="Publications", engine="openpyxl")
     work_in_progress = pd.read_excel(excel_path, sheet_name="Work in Progress", engine="openpyxl")
 
     # Start building the HTML content
@@ -35,28 +34,6 @@ def generate_html():
     # Add Working Papers section
     html_content += "        <h2>Working Papers</h2>\n"
     for _, row in working_papers.iterrows():
-        html_content += f"        <div class='paper'>\n"
-        html_content += f"            <div class='paper-title'>{row['Title']}</div>\n"
-        if not pd.isna(row.get('Authors')):
-            html_content += f"            <div class='paper-authors'>{row['Authors']}</div>\n"
-        if not pd.isna(row.get('Abstract')) or not pd.isna(row.get('Link')):
-            html_content += f"            <div class='button-row'>\n"
-            if not pd.isna(row.get('Abstract')):
-                html_content += f"            <button class='toggle-button' onclick='toggleAbstract(this)'>Abstract</button>\n"
-            if not pd.isna(row.get('Link')):
-                html_content += f"            <a class='pdf-button' href='{row['Link']}' target='_blank'>Paper</a>\n"
-            html_content += f"            </div>\n"
-            if not pd.isna(row.get('Abstract')):
-                if row['Latex'] == 1:
-                    abstract_html = convert_latex_to_html(row['Abstract'])
-                else:
-                    abstract_html = row['Abstract']
-                html_content += f"            <div class='abstract'><p>{abstract_html}</p></div>\n"
-        html_content += "        </div>\n"
-
-    # Add Publications section
-    html_content += "        <h2>Publications</h2>\n"
-    for _, row in publications.iterrows():
         html_content += f"        <div class='paper'>\n"
         html_content += f"            <div class='paper-title'>{row['Title']}</div>\n"
         if not pd.isna(row.get('Authors')):
